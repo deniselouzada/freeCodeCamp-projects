@@ -4,42 +4,35 @@ import pandas as pd
 
 x = [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
-
-#Convert list into matrix
-array = np.array(x)
+#Convert list into data frame
 matrix = np.array(x).reshape(3,3)
+d = pd.DataFrame(data=matrix)
 
-#Flattened results
-"""sum = np.sum(matrix)  
-max = np.max(matrix)
-min = np.min(matrix)
-sigma = np.std(matrix)
-mean = np.mean(matrix)
-var = np.var(matrix)"""
+#Operating with the data frame
+stats = ["mean", "var", "std", "max", "min", "sum"]
+flatData = pd.Series(data=x)
+flat = flatData.agg(stats)
+col = d.agg(stats,axis=0)
+row = d.agg(stats,axis=1)
 
-stats = ["mean", "variance", "standard deviation", "max", "min", "sum"]
-print(matrix)
+columns = col.to_numpy()
+rows = row.to_numpy()
+flat = flat.to_numpy()
 
-#Columns
-sum_axis0 = []
-#sum_axis1 = []
+c = [c.tolist() for c in columns]
+rows = np.transpose(rows)
+r = [r.tolist() for r in rows]
+f = [f.tolist() for f in flat]
 
-for k in range(3):
-    sum_axis0.append(np.sum(matrix[:,k]))
-    #sum_axis1.append(np.sum(matrix[k,:]))
-sum = pd.Series()
-print(sum_axis0)
+calculations = {}
+stat = []
+for i in range(6):
+    stat.append(c[i])
+    stat.append(r[i])
+    stat.append(f[i])
+    new_data = [(stats[i], stat)]
+    calculations.update(new_data)
+    stat = []
 
-
-#print(col)
-
-
-
-""" for i in range(0,2):
-    mean[i]
-for k, v in zip(stats, matrix[0:]):
-    print(k,v) """
-
-
-#Convert results into dictionary
-
+for k,v in calculations.items():
+    print(k, ':' ,v)
