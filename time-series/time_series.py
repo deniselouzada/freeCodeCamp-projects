@@ -65,7 +65,8 @@ def draw_box_plot():
     aspect_ratio = 0.75
     plt.axis('tight')
     #Plot 1
-    sns.boxplot(data=df_box, x='Year', y='value', ax=ax1, hue='Year', legend=False, palette='tab10', flierprops={'marker': 'd', 'markersize': 3})
+    sns.boxplot(data=df_box, x='Year', y='value', ax=ax1, hue='Year', 
+                legend=False, palette='tab10', flierprops={'marker': 'd', 'markersize': 3})
     ax1.set_title('Year-wise Box Plot (Trend)')
     ax1.set_ylabel('Page Views')
     ax1.set_xlabel('Year')
@@ -74,7 +75,8 @@ def draw_box_plot():
     ax1.set_box_aspect(aspect_ratio)
 
     #Plot 2
-    sns.boxplot(data=df_box, x='Month', y='value', ax=ax2, hue='Month', legend=False, palette=sns.husl_palette(n_colors=12, h=0.3), order=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], flierprops={'marker': 'd', 'markersize': 3})
+    sns.boxplot(data=df_box, x='Month', y='value', ax=ax2, hue='Month', legend=False, 
+                palette=sns.husl_palette(n_colors=12, h=0.3), order=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], flierprops={'marker': 'd', 'markersize': 3})
     ax2.set_title('Month-wise Box Plot (Seasonality)')
     ax2.set_xlabel('Month')
     ax2.set_ylabel('Page Views')
