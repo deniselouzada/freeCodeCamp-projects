@@ -11,12 +11,10 @@ df = pd.read_csv('adult.data.csv')
 race_count = df.value_counts(subset=['race'], sort=True)
 
 #Calculating the average age of men
-male = df.loc[df['sex'] == 'Male']
-age_male = male['age']
-age_count = age_male.value_counts()
-age_count = age_count.reset_index()
-age_count['wt_age'] = age_count['age']*age_count['count']
-average_age_men = age_count['wt_age'].sum()/len(male)
+male = df.loc[df.sex == 'Male']
+male_age_count = male.age.value_counts().reset_index()
+male_age_count['age_weight'] = male_age_count.age * male_age_count['count']
+average_age_men = male_age_count.age_weight.sum() / len(male)
 
 #Percentage with Bachelors degree
 bachelors = df.loc[df['education'] == 'Bachelors']
@@ -36,26 +34,25 @@ lower_education_rich = (len(noadvplus)/len(noadv))*100
 min_work_hours = df['hours-per-week'].min()
 
 #Percent of people who work minimum hours and earn >50K
-n_min = df.loc[df['hours-per-week'] == min_work_hours]
-min_plus = n_min.loc[n_min['salary'].isin(['>50K'])]
-rich_percentage = (len(min_plus)/len(n_min))*100
-#print(p_min_plus)
+number_who_work_min = df.loc[df['hours-per-week'] == min_work_hours]
+min_hours_over_50k = number_who_work_min.loc[number_who_work_min['salary'].isin(['>50K'])]
+rich_percentage = (len(min)/len(number_who_work_min))*100
 
 #Country with the highest earners and percentage
-c_count = df.value_counts('native-country')
-sal_plus = df.loc[df['salary'].isin(['>50K'])]
-countries_plus = sal_plus['native-country']
-cp_count = countries_plus.value_counts()
-compare = pd.concat([c_count, cp_count], axis=1)
-compare.columns = ['c_count','cp_count']
-ratio = compare['cp_count']/compare['c_count']
-highest_earning_country = ratio.idxmax()
-highest_earning_country_percentage = 100*ratio.max()
+people_per_country = df.value_counts('native-country')
+salary_over_50k = df.loc[df.salary.isin(['>50K'])]
+over_50k_per_country = salary_over_50k.value_counts('native-country')
+
+comparison = pd.concat([people_per_country, over_50k_per_country], axis=1)
+comparison.columns = ['total', 'over_50k']
+ratios = comparison.over_50k / comparison.total
+highest_earning_country = ratios.idxmax()
+highest_earning_country_percentage = ratios.max() * 100
 
 #Most popular ocupation for >50K earners in India
-india = df.loc[(df['native-country'] == 'India') & (df['salary'] == '>50K')]
-ocp_cnt = india['occupation'].value_counts()
-top_IN_occupation = ocp_cnt.idxmax()
+indians_over_50k = df.loc[(df['native-country'] == 'India') & (df['salary'] == '>50K')]
+occupation_count = indians_over_50k.value_counts('occupation')
+top_IN_occupation = occupation_count.idxmax()
 
 print()
 
