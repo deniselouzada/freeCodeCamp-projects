@@ -54,8 +54,6 @@ indians_over_50k = df.loc[(df['native-country'] == 'India') & (df['salary'] == '
 occupation_count = indians_over_50k.value_counts('occupation')
 top_IN_occupation = occupation_count.idxmax()
 
-print()
-
 
 
 
